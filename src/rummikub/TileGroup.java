@@ -1,7 +1,11 @@
 package rummikub;
 
+import com.sun.istack.internal.Nullable;
+
 public class TileGroup {
     Tile[] tiles = new Tile[13];
+    @Nullable TileColor tileColor;
+    @Nullable int tileNumber;
 
     public int get(Tile tile) {
         for (int i=0; i<this.length(); i++) {
