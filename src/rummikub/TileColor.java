@@ -1,3 +1,3 @@
 package rummikub;
 
-public enum TileColor { RED, ORANGE, BLUE, GREEN /* Replace Black */ }
+public enum TileColor { RED, ORANGE, BLUE, WHITE /* Replace Black */ }
