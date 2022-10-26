@@ -1,4 +1,4 @@
-package rummikub;
+package rummikub.common;
 
 public class Tile {
     int count = 1;

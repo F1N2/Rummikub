@@ -1,4 +1,4 @@
-package rummikub;
+package rummikub.common;
 
 public class TileList {
     Tile[] used = new Tile[106];

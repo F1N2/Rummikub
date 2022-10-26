@@ -1,4 +1,4 @@
-package rummikub;
+package rummikub.common;
 
 public enum TileColor {
     RED("\u001B[31m"),

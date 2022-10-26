@@ -1,4 +1,4 @@
-package tool;
+package rummikub.common.util;
 
 public enum Color {
     RESET("0"),

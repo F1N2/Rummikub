@@ -1,4 +1,4 @@
-package rummikub;
+package rummikub.common;
 
 import com.sun.istack.internal.Nullable;
 
