@@ -3,7 +3,7 @@ package rummikub.common.util;
 public enum Color {
     RESET("0"),
     BLACK("30"),
-    RED("30"),
+    RED("31"),
     GREEN("32"),
     YELLOW("33"),
     BLUE("34"),
@@ -11,7 +11,7 @@ public enum Color {
     CYAN("36"),
     WHITE("37"),
     BACKGROUND_BLACK("40"),
-    BACKGROUND_RED("40"),
+    BACKGROUND_RED("41"),
     BACKGROUND_GREEN("42"),
     BACKGROUND_YELLOW("43"),
     BACKGROUND_BLUE("44"),
