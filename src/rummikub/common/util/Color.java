@@ -25,7 +25,7 @@ public enum Color {
         this.color = color;
     }
 
-    public String value() {
+    public String color() {
         return "\u001B["+this.color+"m";
     }
 }

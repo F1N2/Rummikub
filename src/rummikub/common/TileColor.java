@@ -12,7 +12,7 @@ public enum TileColor {
         this.color = color;
     }
 
-    public String value() {
+    public String color() {
         return this.color;
     }
 }

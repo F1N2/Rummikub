@@ -7,6 +7,14 @@ public class TileGroup {
     @Nullable TileColor tileColor;
     @Nullable int tileNumber;
 
+    public TileGroup(TileColor color) {
+        this.tileColor = color;
+    }
+
+    public TileGroup(int number) {
+        this.tileNumber = number;
+    }
+
     public int get(Tile tile) {
         for (int i=0; i<this.length(); i++) {
             if (tiles[i].equal(tile)) return i;
