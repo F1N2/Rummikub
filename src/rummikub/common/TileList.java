@@ -1,34 +1,34 @@
 package rummikub.common;
 
 public class TileList {
-    Tile[] used = new Tile[106];
-    Tile[] unused = new Tile[106];
-    TileGroup[] group = new TileGroup[100];
+    public static Tile[] used = new Tile[106];
+    public static Tile[] unused = new Tile[106];
+    public static TileGroup[] group = new TileGroup[100];
 
     public Tile getUsed(int index) {
-        return this.used[index];
+        return used[index];
     }
 
     public Tile getUnused(int index) {
-        return this.unused[index];
+        return unused[index];
     }
 
     public TileGroup getGroup(int index) {
-        return this.group[index];
+        return group[index];
     }
 
     public int addUsed(Tile tile) {
-        this.used[this.usedLength()-1] = tile;
+        used[this.usedLength()-1] = tile;
         return this.usedLength();
     }
 
     public int addUnused(Tile tile) {
-        this.unused[this.unusedLength()-1] = tile;
+        unused[this.unusedLength()-1] = tile;
         return this.unusedLength();
     }
 
     public int addGroup(TileGroup tileGroup) {
-        this.group[this.groupLength()-1] = tileGroup;
+        group[this.groupLength()-1] = tileGroup;
         return this.groupLength();
     }
 
