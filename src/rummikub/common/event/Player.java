@@ -1,4 +1,6 @@
-package rummikub.common;
+package rummikub.common.event;
+
+import rummikub.common.Tile;
 
 import java.util.ArrayList;
 
