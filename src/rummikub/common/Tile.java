@@ -3,15 +3,15 @@ package rummikub.common;
 public class Tile {
     int count = 1;
     final int id;
-    final int number;
+    final int number; /* Joker: 0 */
     final TileColor color;
     boolean used;
 
-    public Tile(int number, TileColor color, boolean used) {
+    public Tile(int number, TileColor color) {
         this.id = count++;
         this.number = number;
         this.color = color;
-        this.used = used;
+        this.used = false;
     }
 
     public int number() {
