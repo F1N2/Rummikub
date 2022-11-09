@@ -54,18 +54,24 @@ public class TileGroup {
                         max++;
                     else
                         return false;
+                    sum += tile.number;
                 }
             } else {
                 int number = tileList.get(0).number;
+                ArrayList<TileColor> colors = new ArrayList<>();
                 if (tileList.size() > 4)
                     return false;
                 for (Tile tile : tileList) {
                     if (tile.number != number)
                         return false;
+                    else if (colors.contains(tile.color))
+                        return false;
+                    sum += tile.number;
+                    colors.add(tile.color);
                 }
             }
         }
-        return true;
+        return sum >= 30;
     }
 
     public int add(Tile tile) {
