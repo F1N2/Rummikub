@@ -1,6 +1,7 @@
 package rummikub.common;
 
 import com.sun.istack.internal.Nullable;
+import rummikub.common.comparator.TileNumberComparator;
 import rummikub.common.util.Color;
 
 import java.util.ArrayList;
@@ -17,8 +18,8 @@ public class TileGroup {
         this.color = color;
         this.number = -1;
         tiles.forEach((tile) -> {
-            if (tile.number < this.min) this.min = tile.number;
-            if (tile.number > this.max) this.max = tile.number;
+            if (tile.number < this.min) this.min = tile.number - 1;
+            if (tile.number > this.max) this.max = tile.number + 1;
             this.tiles.add(tile);
         });
     }
@@ -27,6 +28,44 @@ public class TileGroup {
         this.color = null;
         this.number = number;
         this.tiles.addAll(tiles);
+    }
+
+    static boolean canRegister(ArrayList<ArrayList<Tile>> tileLists) {
+        int sum = 0;
+        for (ArrayList<Tile> tileList : tileLists) {
+            tileList.sort(new TileNumberComparator());
+
+            if (tileList.size() < 3 || (
+                tileList.get(0).color != tileList.get(1).color &&
+                    tileList.get(0).number != tileList.get(1).number
+            ))
+                return false;
+
+            if (tileList.get(0).number == tileList.get(1).number) {
+                @Nullable TileColor color = tileList.get(0).color;
+                int min = 14;
+                int max = -1;
+                for (Tile tile : tileList) {
+                    if (tile.color != color)
+                        return false;
+                    if (tile.number == min)
+                        min--;
+                    else if (tile.number == max)
+                        max++;
+                    else
+                        return false;
+                }
+            } else {
+                int number = tileList.get(0).number;
+                if (tileList.size() > 4)
+                    return false;
+                for (Tile tile : tileList) {
+                    if (tile.number != number)
+                        return false;
+                }
+            }
+        }
+        return true;
     }
 
     public int add(Tile tile) {
@@ -40,9 +79,9 @@ public class TileGroup {
             } else { // 타일의 컬러 색이 같아야 하는 경우
                 if (this.color != tile.color)
                     return -1;
-                if (this.min - 1 == tile.number)
+                if (this.min == tile.number)
                     this.min--;
-                else if (this.max + 1 == tile.number)
+                else if (this.max == tile.number)
                     this.max++;
                 else
                     return -1;
@@ -64,9 +103,7 @@ public class TileGroup {
 
     public void print() {
         System.out.println(
-            this.tiles.stream().map((e) -> {
-                return e.color.color() + e.number + Color.RESET.color()+" ";
-            })
+            this.tiles.stream().map((e) -> e.color.color() + e.number + Color.RESET.color()+" ")
                 .collect(Collectors.joining())
         );
     }
