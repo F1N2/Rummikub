@@ -3,8 +3,8 @@ package rummikub.common;
 public class Tile {
     int count = 1;
     final int id;
-    final int number; /* Joker: 0 */
-    final TileColor color;
+    public final int number; /* Joker: 0 */
+    public final TileColor color;
     boolean used;
 
     public Tile(int number, TileColor color) {

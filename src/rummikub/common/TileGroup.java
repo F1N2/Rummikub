@@ -53,7 +53,12 @@ public class TileGroup {
     }
 
     public int remove(Tile tile) {
-        // TODO
+        for (int i=0; i< this.tiles.size(); i++) {
+            if (this.tiles.get(i).equal(tile)) {
+                this.tiles.remove(i);
+                return this.tiles.size();
+            }
+        }
         return -1;
     }
 
