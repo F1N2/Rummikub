@@ -9,31 +9,35 @@ import java.util.stream.Collectors;
 
 public class TileGroup {
     public ArrayList<Tile> tiles = new ArrayList<>();
+    TileGroupType type;
     int number;
     @Nullable TileColor color;
     int min = 14;
     int max = -1;
 
-    public TileGroup(TileColor color, ArrayList<Tile> tiles) {
-        this.color = color;
-        this.number = -1;
-        tiles.forEach((tile) -> {
-            if (tile.number < this.min) this.min = tile.number - 1;
-            if (tile.number > this.max) this.max = tile.number + 1;
-            this.tiles.add(tile);
-        });
+    public TileGroup(ArrayList<Tile> tiles) {
+        if (tiles.get(0).color == tiles.get(1).color) {
+            this.type = TileGroupType.COLOR;
+            this.color = tiles.get(0).color;
+            tiles.forEach((tile) -> {
+                if (tile.number < this.min) this.min = tile.number - 1;
+                if (tile.number > this.max) this.max = tile.number + 1;
+                this.tiles.add(tile);
+            });
+        } else if (tiles.get(0).number == tiles.get(1).number) {
+            this.type = TileGroupType.NUMBER;
+            this.number = tiles.get(0).number;
+            this.tiles.addAll(tiles);
+        }
     }
 
-    public TileGroup(int number, ArrayList<Tile> tiles) {
-        this.color = null;
-        this.number = number;
-        this.tiles.addAll(tiles);
-    }
-
-    static boolean canRegister(ArrayList<ArrayList<Tile>> tileLists) {
+    public static boolean canRegister(ArrayList<ArrayList<Tile>> tileLists) {
         int sum = 0;
         for (ArrayList<Tile> tileList : tileLists) {
             tileList.sort(new TileNumberComparator());
+
+//            // TEST
+//            System.out.println(TileGroup.list(tileList));
 
             if (tileList.size() < 3 || (
                 tileList.get(0).color != tileList.get(1).color &&
@@ -41,20 +45,30 @@ public class TileGroup {
             ))
                 return false;
 
-            if (tileList.get(0).number == tileList.get(1).number) {
+            if (tileList.get(0).color == tileList.get(1).color) {
                 @Nullable TileColor color = tileList.get(0).color;
-                int min = 14;
-                int max = -1;
+                int min = tileList.get(0).number;
+                int max = tileList.get(0).number;
                 for (Tile tile : tileList) {
+
+//                    // TEST
+//                    System.out.println("[Tile] number : "+tile.number+", color: "+tile.color);
+//                    System.out.println("[Require] min : "+min+" , max: "+max+", color : "+color);
+
                     if (tile.color != color)
                         return false;
-                    if (tile.number == min)
+                    if (tile.number == min && tile.number == max) {
+                        min--;
+                        max++;
+                    } else if (tile.number == min)
                         min--;
                     else if (tile.number == max)
                         max++;
                     else
                         return false;
                     sum += tile.number;
+//                    // TEST
+//                    System.out.println("sum : "+sum);
                 }
             } else {
                 int number = tileList.get(0).number;
@@ -62,6 +76,12 @@ public class TileGroup {
                 if (tileList.size() > 4)
                     return false;
                 for (Tile tile : tileList) {
+
+//                    // TEST
+//                    System.out.println("[Tile] number : "+tile.number+", color: "+tile.color);
+//                    System.out.println("[Require] number : "+number+"\nused_color : "+colors.stream().map((e) -> e+" ")
+//                        .collect(Collectors.joining()));
+
                     if (tile.number != number)
                         return false;
                     else if (colors.contains(tile.color))
@@ -107,10 +127,13 @@ public class TileGroup {
         return -1;
     }
 
-    public void print() {
-        System.out.println(
-            this.tiles.stream().map((e) -> e.color.color() + e.number + Color.RESET.color()+" ")
-                .collect(Collectors.joining())
-        );
+    static public String list(ArrayList<Tile> tiles) {
+        return tiles.stream().map((e) -> e.color.color() + e.number + Color.RESET.color()+" ")
+                .collect(Collectors.joining());
+    }
+
+    public String list() {
+        return this.tiles.stream().map((e) -> e.color.color() + e.number + Color.RESET.color()+" ")
+            .collect(Collectors.joining());
     }
 }

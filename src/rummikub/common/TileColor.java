@@ -1,18 +1,18 @@
 package rummikub.common;
 
 public enum TileColor {
-    RED("\u001B[31m"),
-    YELLOW("\u001B[33m"),
-    BLUE("\u001B[34m"),
-    WHITE("\u001B[37m"); /* Replace Black */
+    RED(31),
+    YELLOW(33),
+    BLUE(34),
+    WHITE(37); /* Replace Black */
 
-    private final String color;
+    private final int color;
 
-    TileColor(String color) {
+    TileColor(int color) {
         this.color = color;
     }
 
     public String color() {
-        return this.color;
+        return "\u001B["+this.color+"m";
     }
 }
