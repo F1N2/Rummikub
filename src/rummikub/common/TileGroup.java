@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 public class TileGroup {
     public ArrayList<Tile> tiles = new ArrayList<>();
-    TileGroupType type;
+    public TileGroupType type;
     int number;
     @Nullable TileColor color;
     int min = 14;
@@ -29,6 +29,7 @@ public class TileGroup {
             this.number = tiles.get(0).number;
             this.tiles.addAll(tiles);
         }
+        TileList.group.add(this);
     }
 
     public static boolean canRegister(ArrayList<ArrayList<Tile>> tileLists) {
@@ -96,7 +97,7 @@ public class TileGroup {
 
     public int add(Tile tile) {
         if (tile.number != 0) {
-            if (this.color == null) { // 타일의 컬러 색이 상관 없을 경우
+            if (this.type == TileGroupType.NUMBER) { // 타일의 번호가 같아야 하는 경우
                 if (tile.number != this.number) // 타일의 번호가 맞지 않은 경우
                     return -1;
                 for (Tile value : this.tiles)
