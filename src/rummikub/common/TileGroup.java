@@ -1,10 +1,10 @@
 package rummikub.common;
 
 import com.sun.istack.internal.Nullable;
-import rummikub.common.comparator.TileNumberComparator;
 import rummikub.common.util.Color;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.stream.Collectors;
 
 public class TileGroup {
@@ -20,8 +20,8 @@ public class TileGroup {
             this.type = TileGroupType.COLOR;
             this.color = tiles.get(0).color;
             tiles.forEach((tile) -> {
-                if (tile.number < this.min) this.min = tile.number - 1;
-                if (tile.number > this.max) this.max = tile.number + 1;
+                if (tile.number < this.min) this.min = tile.number;
+                if (tile.number > this.max) this.max = tile.number;
                 this.tiles.add(tile);
             });
         } else if (tiles.get(0).number == tiles.get(1).number) {
@@ -35,11 +35,7 @@ public class TileGroup {
     public static boolean canRegister(ArrayList<ArrayList<Tile>> tileLists) {
         int sum = 0;
         for (ArrayList<Tile> tileList : tileLists) {
-            tileList.sort(new TileNumberComparator());
-
-//            // TEST
-//            System.out.println(TileGroup.list(tileList));
-
+            tileList.sort(Comparator.comparingInt(o -> o.number));
             if (tileList.size() < 3 || (
                 tileList.get(0).color != tileList.get(1).color &&
                     tileList.get(0).number != tileList.get(1).number
@@ -51,11 +47,6 @@ public class TileGroup {
                 int min = tileList.get(0).number;
                 int max = tileList.get(0).number;
                 for (Tile tile : tileList) {
-
-//                    // TEST
-//                    System.out.println("[Tile] number : "+tile.number+", color: "+tile.color);
-//                    System.out.println("[Require] min : "+min+" , max: "+max+", color : "+color);
-
                     if (tile.color != color)
                         return false;
                     if (tile.number == min && tile.number == max) {
@@ -68,8 +59,6 @@ public class TileGroup {
                     else
                         return false;
                     sum += tile.number;
-//                    // TEST
-//                    System.out.println("sum : "+sum);
                 }
             } else {
                 int number = tileList.get(0).number;
@@ -77,12 +66,6 @@ public class TileGroup {
                 if (tileList.size() > 4)
                     return false;
                 for (Tile tile : tileList) {
-
-//                    // TEST
-//                    System.out.println("[Tile] number : "+tile.number+", color: "+tile.color);
-//                    System.out.println("[Require] number : "+number+"\nused_color : "+colors.stream().map((e) -> e+" ")
-//                        .collect(Collectors.joining()));
-
                     if (tile.number != number)
                         return false;
                     else if (colors.contains(tile.color))
@@ -96,7 +79,7 @@ public class TileGroup {
     }
 
     public int add(Tile tile) {
-        if (tile.number != 0) {
+        if (tile.number != 0) { // 타일이 조커가 아닌 경우
             if (this.type == TileGroupType.NUMBER) { // 타일의 번호가 같아야 하는 경우
                 if (tile.number != this.number) // 타일의 번호가 맞지 않은 경우
                     return -1;
@@ -106,15 +89,16 @@ public class TileGroup {
             } else { // 타일의 컬러 색이 같아야 하는 경우
                 if (this.color != tile.color)
                     return -1;
-                if (this.min == tile.number)
+                else if (this.min - 1 == tile.number)
                     this.min--;
-                else if (this.max == tile.number)
+                else if (this.max + 1 == tile.number)
                     this.max++;
                 else
                     return -1;
             }
         }
         tiles.add(tile);
+        tiles.sort(Comparator.comparingInt(o -> o.number));
         return tiles.size();
     }
 
