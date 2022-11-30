@@ -4,6 +4,7 @@ import com.sun.istack.internal.Nullable;
 import rummikub.common.util.Color;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.stream.Collectors;
 
@@ -35,7 +36,7 @@ public class TileGroup {
     public static boolean canRegister(ArrayList<ArrayList<Tile>> tileLists) {
         int sum = 0;
         for (ArrayList<Tile> tileList : tileLists) {
-            tileList.sort(Comparator.comparingInt(o -> o.number));
+            TileGroup.numberSort(tileList);
             if (tileList.size() < 3 || (
                 tileList.get(0).color != tileList.get(1).color &&
                     tileList.get(0).number != tileList.get(1).number
@@ -98,7 +99,7 @@ public class TileGroup {
             }
         }
         tiles.add(tile);
-        tiles.sort(Comparator.comparingInt(o -> o.number));
+        this.numberSort();
         return tiles.size();
     }
 
@@ -113,12 +114,24 @@ public class TileGroup {
     }
 
     static public String list(ArrayList<Tile> tiles) {
-        return tiles.stream().map((e) -> e.color.color() + e.number + Color.RESET.color()+" ")
+        return tiles.stream().map((e) -> e.color.value + e.number + Color.RESET.color()+" ")
                 .collect(Collectors.joining());
     }
 
     public String list() {
-        return this.tiles.stream().map((e) -> e.color.color() + e.number + Color.RESET.color()+" ")
+        return this.tiles.stream().map((e) -> e.color.value + e.number + Color.RESET.color()+" ")
             .collect(Collectors.joining());
+    }
+    public void colorSort() {
+        this.tiles.sort(Comparator.comparingInt(o -> o.color.color));
+    }
+    public void numberSort() {
+        this.tiles.sort(Comparator.comparingInt(o -> o.number));
+    }
+    public static void colorSort(ArrayList<Tile> tiles) {
+        tiles.sort(Comparator.comparingInt(o -> o.color.color));
+    }
+    public static void numberSort(ArrayList<Tile> tiles) {
+        tiles.sort(Comparator.comparingInt(o -> o.number));
     }
 }
