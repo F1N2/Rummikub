@@ -42,7 +42,6 @@ public class Game {
                 AI.ai.get(1).tile.add(unusedTiles.remove(0));
             }
         }
-        System.out.println(unusedTiles.size());
     }
 
     public static void inspection() throws InterruptedException {
