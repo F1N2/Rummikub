@@ -48,7 +48,7 @@ public class Game {
     }
 
     public static void inspection() throws InterruptedException {
-        if (Player.tile.size() < 1) {
+        if (Game.mode == GameMode.PLAYER_VS_AI && Player.tile.size() < 1) {
             Game.status = GameStatus.NOT_PLAYING;
             Game.winner = "Player";
         } else if (AI.ai.get(0).tile.size() < 1) {

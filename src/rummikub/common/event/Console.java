@@ -47,7 +47,7 @@ public class Console {
         }
     }
 
-    public static void tile() {
+    public static void tile() throws InterruptedException {
         Console.clear();
         if (Game.mode == GameMode.PLAYER_VS_AI) {
             System.out.println(Color.BLUE.toString("----------------------------------------------------------"));
@@ -209,6 +209,26 @@ public class Console {
         System.out.println("Game Over");
         System.out.println();
         System.out.println("Winner is "+Game.winner+"!");
+        System.out.println();
+        System.out.println(Color.RED.toString("----------------------------------------------------------"));
+        System.out.println();
+        System.out.println("Score");
+        System.out.println();
+        if (Game.mode == GameMode.PLAYER_VS_AI) {
+            int player = 0;
+            int ai = 0;
+            for (Tile tile: Player.tile) player -= tile.number;
+            for (Tile tile: AI.ai.get(0).tile) ai -= tile.number;
+            System.out.println("Player : "+(player > ai ? -ai : player));
+            System.out.println("AI : "+(player < ai ? -player : ai));
+        } else {
+            int ai1 = 0;
+            int ai2 = 0;
+            for (Tile tile: AI.ai.get(0).tile) ai1 -= tile.number;
+            for (Tile tile: AI.ai.get(1).tile) ai2 -= tile.number;
+            System.out.println("1st AI : "+(ai1 > ai2 ? -ai2 : ai1));
+            System.out.println("2nd AI : "+(ai1 < ai2 ? -ai1 : ai2));
+        }
         System.out.println();
         System.out.println(Color.RED.toString("----------------------------------------------------------"));
         System.exit(0);

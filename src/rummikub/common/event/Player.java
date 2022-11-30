@@ -13,6 +13,8 @@ public class Player {
     public static ArrayList<TileGroup> tempGroup = new ArrayList<>();
 
     public static void skipTurn() {
+        if (Game.unusedTiles.size() < 1)
+            return;
         if (!Player.registered)
             Player.tile.add(Game.unusedTiles.remove(0));
         if ((Player.first >= 30 || Player.first == -1) && Player.registered) {

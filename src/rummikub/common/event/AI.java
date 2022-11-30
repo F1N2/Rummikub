@@ -3,6 +3,7 @@ package rummikub.common.event;
 import com.sun.istack.internal.Nullable;
 import rummikub.common.Tile;
 import rummikub.common.TileGroup;
+import rummikub.common.enums.GameMode;
 import rummikub.common.enums.GameStatus;
 import rummikub.common.enums.TileColor;
 import rummikub.common.util.Sort;
@@ -18,11 +19,17 @@ public class AI {
     public void turn() throws InterruptedException {
         useTile();
         Thread.sleep(100);
-        Game.status = Game.status == GameStatus.AI_TURN ? GameStatus.AI2_TURN : GameStatus.AI_TURN;
+        if (Game.mode == GameMode.PLAYER_VS_AI)
+            Game.status = GameStatus.PLAYER_TURN;
+        else
+            Game.status = Game.status == GameStatus.AI_TURN ? GameStatus.AI2_TURN : GameStatus.AI_TURN;
+        Game.inspection();
         Console.playing();
     }
 
     public void useTile() {
+        if (Game.unusedTiles.size() < 1)
+            return;
         ArrayList<TileGroup> tileGroup = new ArrayList<>();
         for (int i=0; i<2; i++) {
             if (i==0)
@@ -33,7 +40,6 @@ public class AI {
             int min = 15, max = -1, number = 0;
             TileColor color = null;
             ArrayList<TileColor> colors = new ArrayList<>();
-            System.out.println(TileGroup.list(this.tile));
             for (int j=0; j<tile.size(); j++) {
                 Tile value = tile.get(j);
                 if (tileList.size() < 1) {
@@ -41,7 +47,6 @@ public class AI {
                     min = max = number = value.number;
                     color = value.color;
                 } else if (i == 0) {
-                    System.out.println("color : "+value.color+", number : "+value.number+", first : "+this.first);
                     if (value.number != number) {
                         colors = new ArrayList<>();
                         tileList = new ArrayList<>();
