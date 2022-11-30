@@ -1,4 +1,4 @@
-package rummikub.common.status;
+package rummikub.common.enums;
 
 public enum GameStatus {
     NOT_PLAYING(-1),

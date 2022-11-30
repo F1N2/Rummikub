@@ -1,4 +1,4 @@
-package rummikub.common.status;
+package rummikub.common.enums;
 
 
 public enum InputStatus {

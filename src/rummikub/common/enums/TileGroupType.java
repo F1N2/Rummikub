@@ -1,4 +1,4 @@
-package rummikub.common;
+package rummikub.common.enums;
 
 public enum TileGroupType {
     NUMBER,

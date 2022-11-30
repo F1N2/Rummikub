@@ -1,4 +1,4 @@
-package rummikub.common;
+package rummikub.common.enums;
 
 import rummikub.common.util.Color;
 

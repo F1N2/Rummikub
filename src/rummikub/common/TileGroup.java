@@ -1,6 +1,8 @@
 package rummikub.common;
 
 import com.sun.istack.internal.Nullable;
+import rummikub.common.enums.TileColor;
+import rummikub.common.enums.TileGroupType;
 import rummikub.common.util.Color;
 import rummikub.common.util.Sort;
 

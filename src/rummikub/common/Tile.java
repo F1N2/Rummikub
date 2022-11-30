@@ -1,5 +1,7 @@
 package rummikub.common;
 
+import rummikub.common.enums.TileColor;
+
 public class Tile {
     int count = 1;
     final int id;
