@@ -18,7 +18,7 @@ public class AI {
 
     public void turn() throws InterruptedException {
         useTile();
-        Thread.sleep(100);
+        Thread.sleep(1000);
         if (Game.mode == GameMode.PLAYER_VS_AI)
             Game.status = GameStatus.PLAYER_TURN;
         else

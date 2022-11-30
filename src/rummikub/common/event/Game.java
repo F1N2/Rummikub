@@ -28,8 +28,6 @@ public class Game {
 //        unusedTiles.add(new Tile(0, TileColor.WHITE));
         Collections.shuffle(unusedTiles);
 
-        System.out.println(unusedTiles.size());
-
         // Player와 AI에게 각각 14개의 타일 주기
         AI.ai.add(new AI());
         if (Game.mode == GameMode.PLAYER_VS_AI)
