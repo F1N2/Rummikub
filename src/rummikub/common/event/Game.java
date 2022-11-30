@@ -1,12 +1,15 @@
 package rummikub.common.event;
 
 import rummikub.common.Tile;
+import rummikub.common.status.GameStatus;
 import rummikub.common.TileColor;
 import rummikub.common.TileList;
 
 import java.util.Collections;
 
 public class Game {
+    static GameStatus status = GameStatus.NOT_PLAYING;
+
     public static void init() {
         // 타일들을 추가하고 셔플
         for (int i=1;i<=13;i++)
@@ -21,5 +24,7 @@ public class Game {
             AI.tile.add(TileList.unused.remove(0));
             Player.tile.add(TileList.unused.remove(0));
         }
+
+        status = GameStatus.PLAYER_TURN;
     }
 }

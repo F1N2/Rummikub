@@ -4,7 +4,6 @@ import com.sun.istack.internal.Nullable;
 import rummikub.common.util.Color;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.stream.Collectors;
 
@@ -12,7 +11,8 @@ public class TileGroup {
     public ArrayList<Tile> tiles = new ArrayList<>();
     public TileGroupType type;
     int number;
-    @Nullable TileColor color;
+    @Nullable
+    TileColor color;
     int min = 14;
     int max = -1;
 
@@ -123,12 +123,14 @@ public class TileGroup {
             .collect(Collectors.joining());
     }
     public void colorSort() {
+        this.numberSort();
         this.tiles.sort(Comparator.comparingInt(o -> o.color.color));
     }
     public void numberSort() {
         this.tiles.sort(Comparator.comparingInt(o -> o.number));
     }
     public static void colorSort(ArrayList<Tile> tiles) {
+        TileGroup.numberSort(tiles);
         tiles.sort(Comparator.comparingInt(o -> o.color.color));
     }
     public static void numberSort(ArrayList<Tile> tiles) {
