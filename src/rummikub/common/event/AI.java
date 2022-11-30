@@ -1,7 +1,7 @@
 package rummikub.common.event;
 
 import rummikub.common.Tile;
-import rummikub.common.status.GameStatus;
+import rummikub.common.enums.GameStatus;
 
 import java.util.ArrayList;
 
@@ -11,7 +11,7 @@ public class AI {
     public static ArrayList<Tile> tile = new ArrayList<>();
 
     public static void turn() throws InterruptedException {
-        Thread.sleep(2000);
+        Thread.sleep(3000);
         Game.status = GameStatus.PLAYER_TURN;
         Console.playing();
     }

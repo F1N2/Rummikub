@@ -2,8 +2,8 @@ package rummikub.common.event;
 
 import rummikub.common.Tile;
 import rummikub.common.TileGroup;
-import rummikub.common.status.GameStatus;
-import rummikub.common.TileColor;
+import rummikub.common.enums.GameStatus;
+import rummikub.common.enums.TileColor;
 
 import java.util.ArrayList;
 import java.util.Collections;
