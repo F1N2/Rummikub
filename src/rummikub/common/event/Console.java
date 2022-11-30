@@ -1,17 +1,19 @@
 package rummikub.common.event;
 
-import rummikub.common.TileList;
+import rummikub.common.TileGroup;
 import rummikub.common.status.GameStatus;
+import rummikub.common.status.InputStatus;
 import rummikub.common.util.Color;
+import rummikub.common.util.Sort;
 
-import java.util.Scanner;
+import java.util.*;
 
 public class Console {
     public static void clear() {
         System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
     }
 
-    public static void init() {
+    public static void init() throws InterruptedException {
         Console.clear();
         System.out.println(Color.BLUE.toString("----------------------------------------------------------"));
         System.out.println();
@@ -33,33 +35,92 @@ public class Console {
             Console.init();
     }
 
-    public static void playing() {
+    public static void tile() throws InterruptedException {
         Console.clear();
         System.out.println(Color.BLUE.toString("----------------------------------------------------------"));
-        System.out.println("                      현재 턴 : "+Color.YELLOW.toString(Game.status.nowPlayer()));
+        System.out.println((Game.status.nowPlayer().equals("AI") ? "  " : "")+"                      현재 턴 : "+Color.YELLOW.toString(Game.status.nowPlayer()));
         System.out.println(Color.BLUE.toString("----------------------------------------------------------"));
         System.out.println("                      "+Color.YELLOW.toString("AI")+"의 타일 : "+Color.RED.toString(AI.tile.size())+"개");
         System.out.println(Color.BLUE.toString("----------------------------------------------------------"));
-        System.out.println("                     현재 타일 그룹 : "+Color.RED.toString(TileList.group.size())+"개");
-        if (TileList.group.size() > 0) {
-            System.out.println();
-            for (int i=0;i<TileList.group.size(); i++)
-                System.out.println((i+1)+". "+TileList.group.get(i).list());
-            System.out.println();
-        }
+        System.out.println("                     현재 타일 그룹 : "+Color.RED.toString(Game.tileGroups.size())+"개");
+        if (Game.tileGroups.size() > 0)
+            for (int i=0;i<Game.tileGroups.size(); i++)
+                System.out.println((i+1)+". "+Game.tileGroups.get(i).list());
         System.out.println(Color.BLUE.toString("----------------------------------------------------------"));
         System.out.println("                       "+Color.YELLOW.toString("Player")+"의 타일");
-        System.out.println(Player.printTile());
+        System.out.println(TileGroup.list(Player.tile));
         System.out.println(Color.BLUE.toString("----------------------------------------------------------"));
-        Console.initInput();
     }
 
-    public static void initInput() {
+    public static void playing() throws InterruptedException {
+        Console.tile();
+        if (Game.status == GameStatus.PLAYER_TURN)
+            Console.initInput();
+        else
+            AI.turn();
+    }
+
+    public static void initInput() throws InterruptedException {
         System.out.println(Color.RED.toString("----------------------------------------------------------"));
         System.out.println("               현재 턴에서 무엇을 할지 선택해주세요");
-        System.out.println();
-        System.out.println(Color.RED.toString("1. ")+" ");
-        System.out.println();
+        System.out.println("                    "+Color.RED.toString("1. ")+"타일 그룹 선택하기");
+        System.out.println("                   "+Color.RED.toString("2. ")+"여러개의 타일 선택하기");
+        System.out.println("                      "+Color.RED.toString("3. ")+"턴 스킵하기");
+        System.out.println("                    "+Color.RED.toString("4. ")+"타일 숫자별로 정렬");
+        System.out.println("                     "+Color.RED.toString("5. ")+"타일 색별로 정렬");
         System.out.println(Color.RED.toString("----------------------------------------------------------"));
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Number : ");
+        int number = sc.nextInt();
+        switch(number) {
+            case 1:
+                Player.inputStatus = InputStatus.SELECT_GROUP;
+                if (Game.tileGroups.size() > 0)
+                    Console.selectTileGroup();
+                break;
+            case 2:
+                Player.inputStatus = InputStatus.SELECT_TILES;
+                Console.selectTiles();
+                break;
+            case 3:
+                Player.skipTurn();
+                break;
+            case 4:
+                Sort.number(Player.tile);
+                break;
+            case 5:
+                Sort.color(Player.tile);
+                break;
+            default:
+                break;
+        }
+        Game.inspection();
+        Console.playing();
+    }
+
+    public static void selectTileGroup() throws InterruptedException {
+        Console.tile();
+        System.out.println(Color.RED.toString("----------------------------------------------------------"));
+        System.out.println("                  수정할 타일 그룹을 선택해주세요");
+        for (int i=0;i<Game.tileGroups.size(); i++)
+            System.out.println((i+1)+". "+Game.tileGroups.get(i).list());
+        System.out.println(Color.RED.toString("----------------------------------------------------------"));
+    }
+
+    public static void selectTiles() throws InterruptedException {
+        Console.tile();
+        System.out.println(Color.RED.toString("----------------------------------------------------------"));
+        System.out.println("                 그룹을 만들 타일들을 선택해주세요");
+        System.out.println("                "+Color.PURPLE.toString("ex)")+" 1, 3, 5번째 타일 선택할 때");
+        System.out.println("                      Tiles : "+Color.GREEN.toString("1 3 5"));
+        System.out.println(TileGroup.list(Player.tile));
+        System.out.println(Color.RED.toString("----------------------------------------------------------"));
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Tiles : ");
+        ArrayList<Integer> tileNumbers = new ArrayList<>();
+        String[] str = sc.next().split(" ");
+        for (String number: str)
+            tileNumbers.add(Integer.parseInt(number));
+        tileNumbers.sort(Comparator.reverseOrder());
     }
 }

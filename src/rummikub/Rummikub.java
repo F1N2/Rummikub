@@ -4,7 +4,7 @@ import rummikub.common.event.Console;
 import rummikub.common.event.Game;
 
 public class Rummikub {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         Game.init();
         Console.init();
     }

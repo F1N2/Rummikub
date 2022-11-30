@@ -6,11 +6,11 @@ public enum TileColor {
     BLUE(34),
     WHITE(37); /* Replace Black */
 
-    public final int color;
+    public final int number;
     public final String value;
 
-    TileColor(int color) {
-        this.color = color;
-        this.value = "\u001B["+this.color+"m";
+    TileColor(int number) {
+        this.number = number;
+        this.value = "\u001B["+this.number +"m";
     }
 }

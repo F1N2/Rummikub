@@ -1,10 +1,11 @@
 package rummikub.common;
 
 import com.sun.istack.internal.Nullable;
+import rummikub.common.event.Game;
 import rummikub.common.util.Color;
+import rummikub.common.util.Sort;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.stream.Collectors;
 
 public class TileGroup {
@@ -30,13 +31,13 @@ public class TileGroup {
             this.number = tiles.get(0).number;
             this.tiles.addAll(tiles);
         }
-        TileList.group.add(this);
+        Game.tileGroups.add(this);
     }
 
-    public static boolean canRegister(ArrayList<ArrayList<Tile>> tileLists) {
+    public static boolean canRegister(ArrayList<ArrayList<Tile>> tileLists, boolean checkSum) {
         int sum = 0;
         for (ArrayList<Tile> tileList : tileLists) {
-            TileGroup.numberSort(tileList);
+            Sort.number(tileList);
             if (tileList.size() < 3 || (
                 tileList.get(0).color != tileList.get(1).color &&
                     tileList.get(0).number != tileList.get(1).number
@@ -76,7 +77,7 @@ public class TileGroup {
                 }
             }
         }
-        return sum >= 30;
+        return !checkSum || sum >= 30;
     }
 
     public int add(Tile tile) {
@@ -99,7 +100,7 @@ public class TileGroup {
             }
         }
         tiles.add(tile);
-        this.numberSort();
+        Sort.number(tiles);
         return tiles.size();
     }
 
@@ -114,26 +115,12 @@ public class TileGroup {
     }
 
     static public String list(ArrayList<Tile> tiles) {
-        return tiles.stream().map((e) -> e.color.value + e.number + Color.RESET.value+" ")
+        return tiles.stream().map((e) -> e.color.value + (e.number == 0 ? "J" : e.number) + Color.RESET.value+" ")
                 .collect(Collectors.joining());
     }
 
     public String list() {
-        return this.tiles.stream().map((e) -> e.color.value + e.number + Color.RESET.value+" ")
+        return this.tiles.stream().map((e) -> e.color.value + (e.number == 0 ? "J" : e.number) + Color.RESET.value+" ")
             .collect(Collectors.joining());
-    }
-    public void colorSort() {
-        this.numberSort();
-        this.tiles.sort(Comparator.comparingInt(o -> o.color.color));
-    }
-    public void numberSort() {
-        this.tiles.sort(Comparator.comparingInt(o -> o.number));
-    }
-    public static void colorSort(ArrayList<Tile> tiles) {
-        TileGroup.numberSort(tiles);
-        tiles.sort(Comparator.comparingInt(o -> o.color.color));
-    }
-    public static void numberSort(ArrayList<Tile> tiles) {
-        tiles.sort(Comparator.comparingInt(o -> o.number));
     }
 }

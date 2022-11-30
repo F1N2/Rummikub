@@ -1,16 +1,16 @@
 package rummikub.common.event;
 
 import rummikub.common.Tile;
-import rummikub.common.util.Color;
+import rummikub.common.status.GameStatus;
 
 import java.util.ArrayList;
-import java.util.stream.Collectors;
 
 public class AI {
+    public static boolean firstRegistered = false;
     public static ArrayList<Tile> tile = new ArrayList<>();
 
-    public static String printTile() {
-        return tile.stream().map((e) -> e.color.value + e.number + Color.RESET.value+" ")
-            .collect(Collectors.joining());
+    public static void turn() throws InterruptedException {
+        Thread.sleep(2000);
+        Game.status = GameStatus.PLAYER_TURN;
     }
 }
