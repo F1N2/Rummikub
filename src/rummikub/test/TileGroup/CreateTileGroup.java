@@ -1,4 +1,4 @@
-package rummikub.test;
+package rummikub.test.TileGroup;
 
 import rummikub.common.Tile;
 import rummikub.common.TileColor;
