@@ -41,13 +41,25 @@ public class Console {
         System.out.println("                      "+Color.YELLOW.toString("AI")+"의 타일 : "+Color.RED.toString(AI.tile.size())+"개");
         System.out.println(Color.BLUE.toString("----------------------------------------------------------"));
         System.out.println("                     현재 타일 그룹 : "+Color.RED.toString(TileList.group.size())+"개");
-        System.out.println();
-        for (int i=0;i<TileList.group.size(); i++) {
-            System.out.println((i+1)+". "+TileList.group.get(i).list());
+        if (TileList.group.size() > 0) {
+            System.out.println();
+            for (int i=0;i<TileList.group.size(); i++)
+                System.out.println((i+1)+". "+TileList.group.get(i).list());
+            System.out.println();
         }
         System.out.println(Color.BLUE.toString("----------------------------------------------------------"));
         System.out.println("                       "+Color.YELLOW.toString("Player")+"의 타일");
         System.out.println(Player.printTile());
         System.out.println(Color.BLUE.toString("----------------------------------------------------------"));
+        Console.initInput();
+    }
+
+    public static void initInput() {
+        System.out.println(Color.RED.toString("----------------------------------------------------------"));
+        System.out.println("               현재 턴에서 무엇을 할지 선택해주세요");
+        System.out.println();
+        System.out.println(Color.RED.toString("1. ")+" ");
+        System.out.println();
+        System.out.println(Color.RED.toString("----------------------------------------------------------"));
     }
 }
