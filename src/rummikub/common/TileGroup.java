@@ -83,38 +83,28 @@ public class TileGroup {
         return sum;
     }
 
-    public int add(Tile tile) {
+    public boolean add(Tile tile) {
         if (tile.number != 0) { // 타일이 조커가 아닌 경우
             if (this.type == TileGroupType.NUMBER) { // 타일의 번호가 같아야 하는 경우
                 if (tile.number != this.number) // 타일의 번호가 맞지 않은 경우
-                    return -1;
+                    return false;
                 for (Tile value : this.tiles)
                     if (value.color == tile.color) // 현재 그룹에 있는 타일의 컬러랑 추가하려는 타일의 컬러가 같은 경우
-                        return -1;
+                        return false;
             } else { // 타일의 컬러 색이 같아야 하는 경우
                 if (this.color != tile.color)
-                    return -1;
+                    return false;
                 else if (this.min - 1 == tile.number)
                     this.min--;
                 else if (this.max + 1 == tile.number)
                     this.max++;
                 else
-                    return -1;
+                    return false;
             }
         }
         tiles.add(tile);
         Sort.number(tiles);
-        return tiles.size();
-    }
-
-    public int remove(Tile tile) {
-        for (int i=0; i< this.tiles.size(); i++) {
-            if (this.tiles.get(i).equal(tile)) {
-                this.tiles.remove(i);
-                return this.tiles.size();
-            }
-        }
-        return -1;
+        return true;
     }
 
     static public String list(ArrayList<Tile> tiles) {

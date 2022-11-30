@@ -6,13 +6,17 @@ public enum GameStatus {
     AI_TURN(1),
     AI2_TURN(2);
 
-    final int statusCode;
+    public int number;
 
-    GameStatus(int statusCode) {
-        this.statusCode = statusCode;
+    GameStatus(int number) {
+        this.number = number;
     }
 
     public String nowPlayer() {
-        return this.statusCode == 0 ? "Player" : "AI";
+        return number == 0 ? "Player" : number == 1 ? "1st AI" : "2nd AI";
+    }
+
+    public int number() {
+        return this.number;
     }
 }
