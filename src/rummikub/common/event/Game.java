@@ -24,7 +24,5 @@ public class Game {
             AI.tile.add(TileList.unused.remove(0));
             Player.tile.add(TileList.unused.remove(0));
         }
-
-        status = GameStatus.PLAYER_TURN;
     }
 }

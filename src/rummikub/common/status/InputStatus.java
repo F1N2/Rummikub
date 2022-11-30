@@ -3,7 +3,9 @@ package rummikub.common.status;
 
 public enum InputStatus {
     /*
-    타일 그룹을 고르거나 턴 스킵이나 타일 여러개 선택 : 0
+        타일 그룹 선택, 타일들 선택, 턴 스킵, 정렬 : 0
+
+
      */
     INIT(0),
     SELECT_GROUP(1),

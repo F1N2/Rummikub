@@ -10,7 +10,7 @@ public class Player {
     public static ArrayList<Tile> tile = new ArrayList<>();
 
     public static String printTile() {
-        return tile.stream().map((e) -> e.color.value + e.number + Color.RESET.color()+" ")
+        return tile.stream().map((e) -> e.color.value + e.number + Color.RESET.value+" ")
             .collect(Collectors.joining());
     }
 }

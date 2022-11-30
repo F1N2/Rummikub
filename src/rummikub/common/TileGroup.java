@@ -114,12 +114,12 @@ public class TileGroup {
     }
 
     static public String list(ArrayList<Tile> tiles) {
-        return tiles.stream().map((e) -> e.color.value + e.number + Color.RESET.color()+" ")
+        return tiles.stream().map((e) -> e.color.value + e.number + Color.RESET.value+" ")
                 .collect(Collectors.joining());
     }
 
     public String list() {
-        return this.tiles.stream().map((e) -> e.color.value + e.number + Color.RESET.color()+" ")
+        return this.tiles.stream().map((e) -> e.color.value + e.number + Color.RESET.value+" ")
             .collect(Collectors.joining());
     }
     public void colorSort() {
