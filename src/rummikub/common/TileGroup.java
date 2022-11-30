@@ -1,7 +1,6 @@
 package rummikub.common;
 
 import com.sun.istack.internal.Nullable;
-import rummikub.common.event.Game;
 import rummikub.common.util.Color;
 import rummikub.common.util.Sort;
 
@@ -9,6 +8,8 @@ import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 public class TileGroup {
+    int count = 1;
+    final int id;
     public ArrayList<Tile> tiles = new ArrayList<>();
     public TileGroupType type;
     int number;
@@ -31,10 +32,10 @@ public class TileGroup {
             this.number = tiles.get(0).number;
             this.tiles.addAll(tiles);
         }
-        Game.tileGroups.add(this);
+        this.id = this.count++;
     }
 
-    public static boolean canRegister(ArrayList<ArrayList<Tile>> tileLists, boolean checkSum) {
+    public static int canRegister(ArrayList<ArrayList<Tile>> tileLists) {
         int sum = 0;
         for (ArrayList<Tile> tileList : tileLists) {
             Sort.number(tileList);
@@ -42,7 +43,7 @@ public class TileGroup {
                 tileList.get(0).color != tileList.get(1).color &&
                     tileList.get(0).number != tileList.get(1).number
             ))
-                return false;
+                return -1;
 
             if (tileList.get(0).color == tileList.get(1).color) {
                 @Nullable TileColor color = tileList.get(0).color;
@@ -50,7 +51,7 @@ public class TileGroup {
                 int max = tileList.get(0).number;
                 for (Tile tile : tileList) {
                     if (tile.color != color)
-                        return false;
+                        return -1;
                     if (tile.number == min && tile.number == max) {
                         min--;
                         max++;
@@ -59,25 +60,25 @@ public class TileGroup {
                     else if (tile.number == max)
                         max++;
                     else
-                        return false;
+                        return -1;
                     sum += tile.number;
                 }
             } else {
                 int number = tileList.get(0).number;
                 ArrayList<TileColor> colors = new ArrayList<>();
                 if (tileList.size() > 4)
-                    return false;
+                    return -1;
                 for (Tile tile : tileList) {
                     if (tile.number != number)
-                        return false;
+                        return -1;
                     else if (colors.contains(tile.color))
-                        return false;
+                        return -1;
                     sum += tile.number;
                     colors.add(tile.color);
                 }
             }
         }
-        return !checkSum || sum >= 30;
+        return sum;
     }
 
     public int add(Tile tile) {

@@ -14,22 +14,6 @@ public class Tile {
         this.used = false;
     }
 
-    public int number() {
-        return this.number;
-    }
-
-    public TileColor color() {
-        return this.color;
-    }
-
-    public void setUsed(boolean used) {
-        this.used = used;
-    }
-
-    public boolean isUsed() {
-        return this.used;
-    }
-
     public boolean equal(Tile tile) {
         return this.id == tile.id;
     }
